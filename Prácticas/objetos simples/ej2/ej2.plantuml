@@ -1,0 +1,42 @@
+@startuml
+
+enum Estado {
+  ENVIADO
+  RECIBIDO
+  LEIDO
+}
+
+class Usuario {
+  - nombre: String
+  - chats: Chat[]
+  - numero: String
+  <<Create>> construir(nombre: String, numero: String): Usuario
+  + buscarChat(contacto: Usuario): Chat
+  + enviarMensaje(contenido: String, destinatario: Usuario)
+  + leerChat(contacto: Usuario)
+  + eliminarChat(contacto: Usuario)
+}
+
+class Mensaje {
+  - contenido: String
+  - remitente: Usuario
+  - estado: Estado
+  <<Create>> construir(contenido: String, remitente: Usuario): Mensaje
+  + mostrarMensaje()
+}
+
+class Chat {
+  - mensajes: Mensaje[]
+  - destinatario: Usuario
+  <<Create>> construir(destinatario: Usuario): Chat
+  + recibirMensaje(contenido: String): Mensaje
+  + eliminarMensaje(mensaje: Mensaje)
+  + mostrarChat()
+}
+
+Usuario "1" o--  "*" Chat: tiene >
+Chat "1" *-- "*" Mensaje : compuesto de > 
+Mensaje -> Estado
+
+
+@enduml
